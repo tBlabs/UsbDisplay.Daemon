@@ -1,0 +1,7 @@
+/node_modules
+/coverage
+/_priv
+# /bin
+/.vscode
+.env
+run.sh
