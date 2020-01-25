@@ -26,7 +26,7 @@ export class Config
 
         if (serialFromArgs === undefined)
         {
-            throw new Error(`No "serial" defined (example: "--serial /dev/ttyUSB0" or "--serial /dev/ttyS0")`);
+            throw new Error(`No "serial" defined (example: "--serial /dev/ttyUSB0" or "--serial COM4")`);
         }
 
         return serialFromArgs;

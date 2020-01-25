@@ -1,1 +1,1 @@
-node ./bin/startup.js --port 3000 --serial /dev/ttyUSB0 --log
+node ./bin/startup.js --port 3008 --serial COM6 --log

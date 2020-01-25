@@ -31,7 +31,7 @@ export class Driver
 
         this.serial.OnData((data) =>
         {
-            console.log('FROM SERIAL:', data);
+            console.log('Response from serial:', data);
             // data.forEach(b => parser.Parse(b));
         });
 
@@ -58,17 +58,25 @@ export class Driver
         this.serial.Connect(port, 19200);
     }
 
-    public Set(value: number): void
+    public Set(value: number, animation: number, rotation: number): void
     {
-        const animation = 0;
-        const rotation = 0;
-        
         const frame = (new FluentBuilder())
             .Byte(6) // VALUE_SET
             .Byte(4) // size
             .Word2LE(value)
             .Byte(animation)
             .Byte(rotation)
+            .Xor()
+            .Build();
+
+        this.serial.Send(frame);
+    }
+
+    public KeepAlive(): void
+    {
+        const frame = (new FluentBuilder())
+            .Byte(5) // IS_ALIVE
+            .Byte(0) // size
             .Xor()
             .Build();
 

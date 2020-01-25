@@ -34,10 +34,20 @@ let Main = class Main {
             this._logger.Log('PING');
             res.send('pong');
         });
-        server.all('/set/:value', (req, res) => {
+        server.all('/', (req, res) => {
+            res.send('Welcom to USB Display');
+        });
+        server.all('/set/:value/:animation/:rotation', (req, res) => {
             const value = parseInt(req.params.value, 10);
+            const animation = parseInt(req.params.animation, 10);
+            const rotation = parseInt(req.params.rotation, 10);
             this._logger.Log(`HTTP | SET VALUE TO ${value}`);
-            this._driver.Set(value);
+            this._driver.Set(value, animation, rotation);
+            res.sendStatus(202);
+        });
+        server.all('/KeepAlive', (req, res) => {
+            this._logger.Log(`HTTP | KEEP ALIVE`);
+            this._driver.KeepAlive();
             res.sendStatus(202);
         });
         server.use((err, req, res, next) => {
@@ -47,10 +57,10 @@ let Main = class Main {
         socket.on('error', (e) => this._logger.Log(`SOCKET ERROR ${e}`));
         socket.on('connection', (socket) => {
             clients.Add(socket);
-            socket.on('set', (value) => {
+            socket.on('set', (value, animation, rotation) => {
                 try {
                     this._logger.Log(`SOCKET | SET VALUE TO ${value}`);
-                    this._driver.Set(value);
+                    this._driver.Set(value, animation, rotation);
                 }
                 catch (error) {
                     this._logger.Log(`DRIVER ERROR ${error.message}`);
@@ -62,6 +72,10 @@ let Main = class Main {
         const serial = this._config.Serial;
         httpServer.listen(port, () => this._logger.LogAlways(`SERVER STARTED @ ${port}`));
         this._driver.Connect(serial, () => this._logger.LogAlways(`BOARD CONNECTED @ ${serial}`));
+        setInterval(() => {
+            console.log('Sending keep alive...');
+            this._driver.KeepAlive();
+        }, 3000);
         process.on('SIGINT', async () => {
             clients.DisconnectAll();
             await this._driver.Disconnect();

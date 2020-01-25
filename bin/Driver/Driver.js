@@ -23,7 +23,7 @@ let Driver = class Driver {
                 onConnectionCallback();
         });
         this.serial.OnData((data) => {
-            console.log('FROM SERIAL:', data);
+            console.log('Response from serial:', data);
             // data.forEach(b => parser.Parse(b));
         });
         // const parserBuilder = new FluentParserBuilder<BluePillBoardParserData>();
@@ -44,15 +44,21 @@ let Driver = class Driver {
         // });
         this.serial.Connect(port, 19200);
     }
-    Set(value) {
-        const animation = 0;
-        const rotation = 0;
+    Set(value, animation, rotation) {
         const frame = (new FluentBuilder_1.FluentBuilder())
             .Byte(6) // VALUE_SET
             .Byte(4) // size
             .Word2LE(value)
             .Byte(animation)
             .Byte(rotation)
+            .Xor()
+            .Build();
+        this.serial.Send(frame);
+    }
+    KeepAlive() {
+        const frame = (new FluentBuilder_1.FluentBuilder())
+            .Byte(5) // IS_ALIVE
+            .Byte(0) // size
             .Xor()
             .Build();
         this.serial.Send(frame);

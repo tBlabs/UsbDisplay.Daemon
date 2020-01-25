@@ -6,12 +6,13 @@
     "author": "tB",
     "license": "beerware",
     "scripts": {
-        "xpreinstall": "sudo npm i -g typescript jest tslint npm-run-all",
+        "xpreinstall": "sudo npm i -g typescript jest tslint npm-run-all nodemon",
         "start": "node ./bin/startup.js",
         "run": "npm run clean && npm run build && clear && npm run start",
         "autotranspilation": "tsc --watch",
-        "autorun": "nodemon ./bin/startup.js --port 3001 --serial /dev/ttyUSB0 --log",
+        "autorun": "nodemon ./bin/startup.js --port 3008 --serial COM5 --log",
         "serve": "npm run clean && run-p autotranspilation autorun",
+        "serve:win": "run-p autotranspilation autorun",
         "lint": "tslint -c tslint.json './src/**/*.{ts,tsx}' --format msbuild",
         "test": "jest --runInBand",
         "build": "tsc -p .",
@@ -44,7 +45,7 @@
         "minimist": "^1.2.0",
         "os": "^0.1.1",
         "reflect-metadata": "^0.1.12",
-        "serialport": "^7.0.2",
+        "serialport": "^7.1.5",
         "socket.io": "^2.1.1"
     }
 }
