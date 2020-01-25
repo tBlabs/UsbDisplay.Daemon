@@ -1,19 +1,15 @@
 import 'reflect-metadata';
-import { FluentParserBuilder } from '../utils/FluentParser/FluentParserBuilder';
 import { FluentBuilder } from '../utils/FluentBuilder/FluentBuilder';
 import { injectable } from 'inversify';
-import { IoCache } from './IoCache';
-import { IoState } from "./IoState";
-import { ResponseFrameType } from './ResponseFrameType';
-import { RequestFrameType } from './RequestFrameType';
 import { Serial } from './Serial';
-import { IoInfo } from './IoInfo';
-import { BluePillBoardParserData } from './BluePillBoardParserData';
-import { Addr } from './Addr';
+import { Logger } from '../services/logger/Logger';
 
 @injectable()
 export class Driver
 {
+    constructor(private _log: Logger)
+    { }
+
     private serial: Serial = new Serial();
 
     public async Disconnect(): Promise<void>
@@ -31,7 +27,7 @@ export class Driver
 
         this.serial.OnData((data) =>
         {
-            console.log('Response from serial:', data);
+            this._log.Log('Response from serial: ' + JSON.stringify(data));
             // data.forEach(b => parser.Parse(b));
         });
 

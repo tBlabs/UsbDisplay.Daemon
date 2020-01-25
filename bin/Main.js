@@ -72,11 +72,12 @@ let Main = class Main {
         const serial = this._config.Serial;
         httpServer.listen(port, () => this._logger.LogAlways(`SERVER STARTED @ ${port}`));
         this._driver.Connect(serial, () => this._logger.LogAlways(`BOARD CONNECTED @ ${serial}`));
-        setInterval(() => {
-            console.log('Sending keep alive...');
+        const keepAliveTimer = setInterval(() => {
+            this._logger.Log('Sending keep alive...');
             this._driver.KeepAlive();
         }, 3000);
         process.on('SIGINT', async () => {
+            clearInterval(keepAliveTimer);
             clients.DisconnectAll();
             await this._driver.Disconnect();
             this._logger.LogAlways(`BOARD DISCONNECTED`);

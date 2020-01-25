@@ -5,13 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const FluentBuilder_1 = require("../utils/FluentBuilder/FluentBuilder");
 const inversify_1 = require("inversify");
 const Serial_1 = require("./Serial");
+const Logger_1 = require("../services/logger/Logger");
 let Driver = class Driver {
-    constructor() {
+    constructor(_log) {
+        this._log = _log;
         this.serial = new Serial_1.Serial();
     }
     async Disconnect() {
@@ -23,7 +28,7 @@ let Driver = class Driver {
                 onConnectionCallback();
         });
         this.serial.OnData((data) => {
-            console.log('Response from serial:', data);
+            this._log.Log('Response from serial: ' + JSON.stringify(data));
             // data.forEach(b => parser.Parse(b));
         });
         // const parserBuilder = new FluentParserBuilder<BluePillBoardParserData>();
@@ -65,7 +70,8 @@ let Driver = class Driver {
     }
 };
 Driver = __decorate([
-    inversify_1.injectable()
+    inversify_1.injectable(),
+    __metadata("design:paramtypes", [Logger_1.Logger])
 ], Driver);
 exports.Driver = Driver;
 //# sourceMappingURL=Driver.js.map
