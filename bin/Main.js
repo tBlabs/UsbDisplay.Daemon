@@ -76,12 +76,19 @@ let Main = class Main {
             this._logger.Log('Sending keep alive...');
             this._driver.KeepAlive();
         }, 3000);
-        process.on('SIGINT', async () => {
+        const Dispose = async () => {
             clearInterval(keepAliveTimer);
             clients.DisconnectAll();
             await this._driver.Disconnect();
-            this._logger.LogAlways(`BOARD DISCONNECTED`);
-            httpServer.close(() => this._logger.LogAlways(`SERVER CLOSED`));
+            this._logger.LogAlways(`BOARD DISCONNECTED @ ${serial}`);
+            httpServer.close(() => this._logger.LogAlways(`SERVER CLOSED @ ${port}`));
+        };
+        process.on('SIGINT', async () => {
+            await Dispose();
+        });
+        server.all(['/die', '/exit', '/kill', '/detach', '/dispose'], async (req, res) => {
+            await Dispose();
+            res.sendStatus(202);
         });
     }
 };
