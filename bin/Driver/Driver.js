@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Driver = void 0;
 require("reflect-metadata");
 const FluentBuilder_1 = require("../utils/FluentBuilder/FluentBuilder");
 const inversify_1 = require("inversify");
@@ -28,7 +29,7 @@ let Driver = class Driver {
                 onConnectionCallback();
         });
         this.serial.OnData((data) => {
-            this._log.Log('Response from serial: ' + JSON.stringify(data));
+            // this._log.Log('Response from serial: ' + JSON.stringify(data));
             // data.forEach(b => parser.Parse(b));
         });
         // const parserBuilder = new FluentParserBuilder<BluePillBoardParserData>();
@@ -70,7 +71,7 @@ let Driver = class Driver {
     }
 };
 Driver = __decorate([
-    inversify_1.injectable(),
+    (0, inversify_1.injectable)(),
     __metadata("design:paramtypes", [Logger_1.Logger])
 ], Driver);
 exports.Driver = Driver;

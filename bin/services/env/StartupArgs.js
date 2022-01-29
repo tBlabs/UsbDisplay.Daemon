@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StartupArgs = void 0;
 const inversify_1 = require("inversify");
 require("reflect-metadata");
 const minimist = require("minimist");
@@ -18,7 +19,7 @@ let StartupArgs = class StartupArgs {
     }
 };
 StartupArgs = __decorate([
-    inversify_1.injectable()
+    (0, inversify_1.injectable)()
 ], StartupArgs);
 exports.StartupArgs = StartupArgs;
 //# sourceMappingURL=StartupArgs.js.map

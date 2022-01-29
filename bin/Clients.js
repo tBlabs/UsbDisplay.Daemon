@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Clients = void 0;
 class Clients {
     constructor() {
         this.clients = [];

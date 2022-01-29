@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IfOperation = void 0;
 const OperationType_1 = require("../Types/OperationType");
 class IfOperation {
     constructor(toCompare, varName, list) {

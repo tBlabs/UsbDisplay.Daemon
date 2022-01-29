@@ -27,7 +27,7 @@ export class Driver
 
         this.serial.OnData((data) =>
         {
-            this._log.Log('Response from serial: ' + JSON.stringify(data));
+            // this._log.Log('Response from serial: ' + JSON.stringify(data));
             // data.forEach(b => parser.Parse(b));
         });
 

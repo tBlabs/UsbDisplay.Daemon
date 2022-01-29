@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Serial = void 0;
 const SerialPort = require("serialport");
 class Serial {
     constructor() {

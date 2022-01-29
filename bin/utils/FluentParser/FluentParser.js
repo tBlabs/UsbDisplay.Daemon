@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FluentParser = void 0;
 const ByteBuffer_1 = require("./Utils/ByteBuffer");
 const OperationsList_1 = require("./Utils/OperationsList");
 const OperationType_1 = require("./Types/OperationType");

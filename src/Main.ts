@@ -3,7 +3,7 @@ import { injectable } from 'inversify';
 import { Driver } from './Driver/Driver';
 import * as express from 'express';
 import * as http from 'http';
-import * as socketIo from 'socket.io';
+const socketIo = require('socket.io');
 import { Socket } from 'socket.io';
 import { Clients } from './Clients';
 import { Config } from './Config';
@@ -36,7 +36,7 @@ export class Main
 
         server.all('/', (req, res) =>
         {
-            res.send('Welcom to USB Display');
+            res.send('Welcome to USB Display utility');
         });
 
         server.all('/set/:value/:animation/:rotation', (req, res) =>
@@ -68,7 +68,6 @@ export class Main
             res.send(err.message);
         });
 
-
         socket.on('error', (e) => this._logger.Log(`SOCKET ERROR ${e}`));
 
         socket.on('connection', (socket: Socket) =>
@@ -83,11 +82,11 @@ export class Main
 
                     this._driver.Set(value, animation, rotation);
                 }
-                catch (error)
+                catch (ex: any)
                 {
-                    this._logger.Log(`DRIVER ERROR ${error.message}`);
+                    this._logger.Log(`DRIVER ERROR ${ex.message}`);
 
-                    socket.emit('driver-error', error.message);
+                    socket.emit('driver-error', ex.message);
                 }
             });
         });
@@ -100,7 +99,7 @@ export class Main
 
         const keepAliveTimer = setInterval(() =>
         {
-            this._logger.Log('Sending keep alive...');
+            // this._logger.Log('Sending keep alive...');
             this._driver.KeepAlive();
         }, 3000);
 

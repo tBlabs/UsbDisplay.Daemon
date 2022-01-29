@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Config = void 0;
 const inversify_1 = require("inversify");
 const StartupArgs_1 = require("./services/env/StartupArgs");
 let Config = class Config {
@@ -35,7 +36,7 @@ let Config = class Config {
     }
 };
 Config = __decorate([
-    inversify_1.injectable(),
+    (0, inversify_1.injectable)(),
     __metadata("design:paramtypes", [StartupArgs_1.StartupArgs])
 ], Config);
 exports.Config = Config;

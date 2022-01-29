@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ByteBuffer = void 0;
 const Endian_1 = require("../Types/Endian");
 class ByteBuffer {
     constructor(size = 0, endian = Endian_1.Endian.Little) {

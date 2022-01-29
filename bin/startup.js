@@ -8,8 +8,8 @@ const Main_1 = require("./Main");
         const main = IoC_1.IoC.get(Main_1.Main);
         await main.Run();
     }
-    catch (error) {
-        console.log('Startup exception:', error.message);
+    catch (ex) {
+        console.log('Startup exception:', ex.message);
     }
 })();
 //# sourceMappingURL=startup.js.map

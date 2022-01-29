@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Main = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
 const Driver_1 = require("./Driver/Driver");
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
+const socketIo = require('socket.io');
 const Clients_1 = require("./Clients");
 const Config_1 = require("./Config");
 const Logger_1 = require("./services/logger/Logger");
@@ -35,7 +36,7 @@ let Main = class Main {
             res.send('pong');
         });
         server.all('/', (req, res) => {
-            res.send('Welcom to USB Display');
+            res.send('Welcome to USB Display utility');
         });
         server.all('/set/:value/:animation/:rotation', (req, res) => {
             const value = parseInt(req.params.value, 10);
@@ -62,9 +63,9 @@ let Main = class Main {
                     this._logger.Log(`SOCKET | SET VALUE TO ${value}`);
                     this._driver.Set(value, animation, rotation);
                 }
-                catch (error) {
-                    this._logger.Log(`DRIVER ERROR ${error.message}`);
-                    socket.emit('driver-error', error.message);
+                catch (ex) {
+                    this._logger.Log(`DRIVER ERROR ${ex.message}`);
+                    socket.emit('driver-error', ex.message);
                 }
             });
         });
@@ -73,7 +74,7 @@ let Main = class Main {
         httpServer.listen(port, () => this._logger.LogAlways(`SERVER STARTED @ ${port}`));
         this._driver.Connect(serial, () => this._logger.LogAlways(`BOARD CONNECTED @ ${serial}`));
         const keepAliveTimer = setInterval(() => {
-            this._logger.Log('Sending keep alive...');
+            // this._logger.Log('Sending keep alive...');
             this._driver.KeepAlive();
         }, 3000);
         const Dispose = async () => {
@@ -93,7 +94,7 @@ let Main = class Main {
     }
 };
 Main = __decorate([
-    inversify_1.injectable(),
+    (0, inversify_1.injectable)(),
     __metadata("design:paramtypes", [Config_1.Config,
         Driver_1.Driver,
         Logger_1.Logger])
